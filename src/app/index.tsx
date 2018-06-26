@@ -2,58 +2,59 @@ import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { User } from "./User";
 import { data } from "./data";
+import "./index-styles.css";
 
 interface State {
-  baseuserdata: User[];
-  userdata: User[];
-  genderdata: User[];
+  baseUserData: User[];
+  userData: User[];
+  genderData: User[];
 }
 
 class App extends React.Component<{}, State> {
   constructor(props: any) {
     super(props);
     this.state = {
-      baseuserdata: [],
-      genderdata: [],
-      userdata: []
+      baseUserData: [],
+      genderData: [],
+      userData: []
     };
   }
 
   public componentDidMount(): void {
     this.setState({
-      userdata: data,
-      baseuserdata: data,
-      genderdata: data
+      userData: data,
+      baseUserData: data,
+      genderData: data
     });
   }
 
   protected setMaleFilter: React.MouseEventHandler<HTMLButtonElement> = () => {
     this.setState({
-      genderdata: this.state.baseuserdata.filter(x => x.gender === "Male"),
-      userdata: this.state.baseuserdata.filter(x => x.gender === "Male")
+      genderData: this.state.baseUserData.filter(x => x.gender === "Male"),
+      userData: this.state.baseUserData.filter(x => x.gender === "Male")
     });
-  }
+  };
 
   protected setFemaleFilter: React.MouseEventHandler<
     HTMLButtonElement
   > = () => {
     this.setState({
-      genderdata: this.state.baseuserdata.filter(x => x.gender === "Female"),
-      userdata: this.state.baseuserdata.filter(x => x.gender === "Female")
+      genderData: this.state.baseUserData.filter(x => x.gender === "Female"),
+      userData: this.state.baseUserData.filter(x => x.gender === "Female")
     });
-  }
+  };
   protected resetFilter: React.MouseEventHandler<HTMLButtonElement> = () => {
     this.setState({
-      genderdata: this.state.baseuserdata,
-      userdata: this.state.baseuserdata
+      genderData: this.state.baseUserData,
+      userData: this.state.baseUserData
     });
-  }
+  };
 
   protected setNameFilter: React.ChangeEventHandler<
     HTMLInputElement
   > = event => {
     this.setState({
-      userdata: this.state.genderdata.filter(
+      userData: this.state.genderData.filter(
         x =>
           (x.first_name != null
             ? x.first_name.startsWith(event.target.value)
@@ -63,41 +64,48 @@ class App extends React.Component<{}, State> {
             : "")
       )
     });
-  }
+  };
 
   public render(): JSX.Element {
     return (
       <div>
-        <button onClick={this.setMaleFilter}>Only Males</button>
-        <button onClick={this.setFemaleFilter}>Only Females</button>
-        <button onClick={this.resetFilter}>Reset</button><br></br>
-        <label htmlFor="">Search by first name or last name:</label>
-        <input onChange={this.setNameFilter} type="text" />
-        <table>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>First Name</th>
-              <th>Last Name</th>
-              <th>Email</th>
-              <th>Gender</th>
-              <th>IP Address</th>
-            </tr>
-          </thead>
-          <tbody>
-            {this.state.userdata.map((Data, i) =>
-              (
+        <div className="options">
+          <div className="buttons">
+            <div className="button"><button onClick={this.setMaleFilter}>Only Males</button></div>
+            <div className="button"><button onClick={this.setFemaleFilter}>Only Females</button></div>
+            <div className="button"><button onClick={this.resetFilter}>Reset</button></div>
+          </div>
+          <div className="search">
+            <label htmlFor="">Search by first name or last name:</label>
+            <input onChange={this.setNameFilter} type="text" />
+          </div>
+        </div>
+        <div className="table">
+          <table>
+            <thead>
+              <tr>
+                <td>ID</td>
+                <td>First Name</td>
+                <td>Last Name</td>
+                <td>Email</td>
+                <td>Gender</td>
+                <td>IP Address</td>
+              </tr>
+            </thead>
+            <tbody>
+              {this.state.userData.map((user, i) => (
                 <tr key={i}>
-                  <td>{Data.id}</td>
-                  <td>{Data.first_name}</td>
-                  <td>{Data.last_name}</td>
-                  <td>{Data.email}</td>
-                  <td>{Data.gender}</td>
-                  <td>{Data.ip_address}</td>
+                  <td>{user.id}</td>
+                  <td>{user.first_name}</td>
+                  <td>{user.last_name}</td>
+                  <td>{user.email}</td>
+                  <td>{user.gender}</td>
+                  <td>{user.ip_address}</td>
                 </tr>
               ))}
-          </tbody>
-        </table>
+            </tbody>
+          </table>
+        </div>
       </div>
     );
   }
