@@ -50,7 +50,7 @@ class App extends React.Component<Props, State> {
   > = event => {
     this.setState({
       userdata: this.state.baseuserdata.filter(x =>
-        x.first_name != null ? x.first_name.startsWith(event.target.value) : ""
+        (x.first_name != null ? x.first_name.startsWith(event.target.value): "") || (x.last_name != null ? x.last_name.startsWith(event.target.value) : "")
       )
     });
   };
