@@ -3,16 +3,14 @@ import * as ReactDOM from "react-dom";
 import { User } from "./User";
 import { data } from "./data";
 
-interface Props {}
-
 interface State {
   baseuserdata: User[];
   userdata: User[];
   genderdata: User[];
 }
 
-class App extends React.Component<Props, State> {
-  constructor(props: Props) {
+class App extends React.Component<{}, State> {
+  constructor(props: any) {
     super(props);
     this.state = {
       baseuserdata: [],
@@ -21,7 +19,7 @@ class App extends React.Component<Props, State> {
     };
   }
 
-  public componentDidMount() {
+  public componentDidMount(): void {
     this.setState({
       userdata: data,
       baseuserdata: data,
@@ -87,8 +85,8 @@ class App extends React.Component<Props, State> {
             </tr>
           </thead>
           <tbody>
-            {this.state.userdata.map((Data, i) => {
-              return (
+            {this.state.userdata.map((Data, i) =>
+              (
                 <tr key={i}>
                   <td>{Data.id}</td>
                   <td>{Data.first_name}</td>
@@ -97,8 +95,7 @@ class App extends React.Component<Props, State> {
                   <td>{Data.gender}</td>
                   <td>{Data.ip_address}</td>
                 </tr>
-              );
-            })}
+              ))}
           </tbody>
         </table>
       </div>
