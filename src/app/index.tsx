@@ -8,6 +8,7 @@ interface Props {}
 interface State {
   baseuserdata: User[];
   userdata: User[];
+  genderdata: User[];
 }
 
 class App extends React.Component<Props, State> {
@@ -15,6 +16,7 @@ class App extends React.Component<Props, State> {
     super(props);
     this.state = {
       baseuserdata: [],
+      genderdata: [],
       userdata: []
     };
   }
@@ -22,45 +24,56 @@ class App extends React.Component<Props, State> {
   public componentDidMount() {
     this.setState({
       userdata: data,
-      baseuserdata: data
+      baseuserdata: data,
+      genderdata: data
     });
   }
 
   protected setMaleFilter: React.MouseEventHandler<HTMLButtonElement> = () => {
     this.setState({
+      genderdata: this.state.baseuserdata.filter(x => x.gender === "Male"),
       userdata: this.state.baseuserdata.filter(x => x.gender === "Male")
     });
-  };
+  }
 
   protected setFemaleFilter: React.MouseEventHandler<
     HTMLButtonElement
   > = () => {
     this.setState({
+      genderdata: this.state.baseuserdata.filter(x => x.gender === "Female"),
       userdata: this.state.baseuserdata.filter(x => x.gender === "Female")
     });
-  };
+  }
   protected resetFilter: React.MouseEventHandler<HTMLButtonElement> = () => {
     this.setState({
+      genderdata: this.state.baseuserdata,
       userdata: this.state.baseuserdata
     });
-  };
+  }
 
   protected setNameFilter: React.ChangeEventHandler<
     HTMLInputElement
   > = event => {
     this.setState({
-      userdata: this.state.baseuserdata.filter(x =>
-        (x.first_name != null ? x.first_name.startsWith(event.target.value): "") || (x.last_name != null ? x.last_name.startsWith(event.target.value) : "")
+      userdata: this.state.genderdata.filter(
+        x =>
+          (x.first_name != null
+            ? x.first_name.startsWith(event.target.value)
+            : "") ||
+          (x.last_name != null
+            ? x.last_name.startsWith(event.target.value)
+            : "")
       )
     });
-  };
+  }
 
   public render(): JSX.Element {
     return (
       <div>
-        <button onClick={this.setMaleFilter}>Male</button>
-        <button onClick={this.setFemaleFilter}>Female</button>
-        <button onClick={this.resetFilter}>Reset</button>
+        <button onClick={this.setMaleFilter}>Only Males</button>
+        <button onClick={this.setFemaleFilter}>Only Females</button>
+        <button onClick={this.resetFilter}>Reset</button><br></br>
+        <label htmlFor="">Search by first name or last name:</label>
         <input onChange={this.setNameFilter} type="text" />
         <table>
           <thead>
@@ -74,15 +87,15 @@ class App extends React.Component<Props, State> {
             </tr>
           </thead>
           <tbody>
-            {this.state.userdata.map((data, i) => {
+            {this.state.userdata.map((Data, i) => {
               return (
                 <tr key={i}>
-                  <td>{data.id}</td>
-                  <td>{data.first_name}</td>
-                  <td>{data.last_name}</td>
-                  <td>{data.email}</td>
-                  <td>{data.gender}</td>
-                  <td>{data.ip_address}</td>
+                  <td>{Data.id}</td>
+                  <td>{Data.first_name}</td>
+                  <td>{Data.last_name}</td>
+                  <td>{Data.email}</td>
+                  <td>{Data.gender}</td>
+                  <td>{Data.ip_address}</td>
                 </tr>
               );
             })}
